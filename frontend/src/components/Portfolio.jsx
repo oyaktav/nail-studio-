@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../api';
 import { X, CheckCircle } from 'lucide-react';
+import { API_URL } from '../api';
 
 export default function Portfolio() {
   const [categorias, setCategorias] = useState([]);
@@ -25,6 +26,10 @@ export default function Portfolio() {
     setFotoZoom(null);
     document.getElementById('agendamento-section')?.scrollIntoView({ behavior: 'smooth' });
   };
+  const imagemUrl = (imagem) => {
+  if (!imagem) return '';
+  return new URL(imagem, `${API_URL}/`).href;
+};
 
   return (
     <section className="mt-8 px-2">
@@ -44,9 +49,9 @@ export default function Portfolio() {
       <div className="grid grid-cols-2 gap-3 mt-4 px-2">
         {portfolio.filter(f => f.categoria === abaAtiva).map((foto) => (
           <div key={foto.id} className="rounded-2xl overflow-hidden shadow-sm bg-white" onClick={() => setFotoZoom(foto)}>
-           <img 
-  src={foto.imagem.startsWith('http') ? foto.imagem : `http://127.0.0.1:8000${foto.imagem}`} 
-  alt={foto.descricao} 
+<img
+  src={imagemUrl(foto.imagem)}
+  alt={foto.descricao}
 />
           </div>
         ))}
@@ -56,7 +61,11 @@ export default function Portfolio() {
         <div className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4">
           <button onClick={() => setFotoZoom(null)} className="absolute top-6 right-6 p-2 text-white"><X size={35} /></button>
           <div className="flex flex-col items-center w-full max-w-sm">
-            <img src={fotoZoom.imagem} className="w-full rounded-3xl shadow-2xl border-2 border-white/20" alt="Zoom" />
+          <img
+  src={imagemUrl(fotoZoom.imagem)}
+  className="w-full rounded-3xl shadow-2xl border-2 border-white/20"
+  alt="Zoom"
+/>
             <p className="text-white mt-4 text-xl font-bold">{fotoZoom.descricao}</p>
             <button onClick={() => selecionarEstilo(fotoZoom)} className="mt-6 w-full bg-pink-500 text-white font-bold py-4 rounded-2xl shadow-lg active:scale-95 transition">
               <CheckCircle size={20} className="inline mr-2" /> QUERO ESTE ESTILO
