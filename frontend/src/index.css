@@ -1,0 +1,52 @@
+@import "tailwindcss";
+@import "tailwindcss";
+
+/* Personalização do React Calendar para o NailStudio */
+.react-calendar {
+  border: none !important;
+  width: 100% !important;
+  font-family: inherit !important;
+  background-color: transparent !important;
+}
+
+/* Arredondar os dias e mudar o hover */
+.react-calendar__tile {
+  border-radius: 0.75rem !important;
+  padding: 0.75em 0.5em !important;
+  transition: all 0.2s !important;
+}
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background-color: #fce7f3 !important; /* pink-100 */
+  color: #db2777 !important; /* pink-600 */
+}
+
+/* Dia atual (Hoje) */
+.react-calendar__tile--now {
+  background: #fdf2f8 !important; /* pink-50 */
+  color: #db2777 !important;
+  font-weight: bold;
+}
+
+/* Dia Selecionado */
+.react-calendar__tile--active,
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+  background: #ec4899 !important; /* pink-500 */
+  color: white !important;
+  font-weight: bold;
+  box-shadow: 0 4px 6px -1px rgba(236, 72, 153, 0.3);
+}
+
+/* Esconder a linha de baixo do cabeçalho do calendário */
+.react-calendar__navigation button {
+  border-radius: 0.5rem !important;
+  min-width: 44px;
+  background: none;
+  font-weight: bold;
+  color: #374151; /* gray-700 */
+}
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+  background-color: #fce7f3 !important;
+}
