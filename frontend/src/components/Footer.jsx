@@ -25,7 +25,7 @@ export default function Footer() {
           </div>
           <p className="text-left leading-tight">
             <strong>Telemóvel / WhatsApp:</strong><br/>
-            +55 99 99999-9999
+            +55 62 993660595
           </p>
         </div>
       </div>
@@ -35,7 +35,7 @@ export default function Footer() {
         <a href="#" className="p-3 bg-pink-500 rounded-full text-white hover:bg-pink-600 transition shadow-md transform hover:scale-105">
           <Instagram size={24} />
         </a>
-        <a href="https://wa.me/559999999999" target="_blank" rel="noreferrer" className="p-3 bg-green-500 rounded-full text-white hover:bg-green-600 transition shadow-md transform hover:scale-105">
+        <a href="https://wa.me/5562993660595" target="_blank" rel="noreferrer" className="p-3 bg-green-500 rounded-full text-white hover:bg-green-600 transition shadow-md transform hover:scale-105">
           <Phone size={24} />
         </a>
       </div>

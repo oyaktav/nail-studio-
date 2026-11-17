@@ -169,7 +169,7 @@ export default function Agendamento() {
       const mensagem = encodeURIComponent(linhas.join('\n'));
 
       const urlWhatsApp =
-        `https://wa.me/5562984450637?text=${mensagem}`;
+        `https://wa.me/5562993660595?text=${mensagem}`;
 
       if (abaWhatsApp) {
         abaWhatsApp.location.href = urlWhatsApp;

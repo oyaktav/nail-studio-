@@ -18,7 +18,7 @@ export default function Header() {
           <a href="#localizacao" className="p-2 bg-gray-50 rounded-full text-gray-600 hover:bg-gray-100 transition">
             <MapPin size={20} />
           </a>
-          <a href="https://wa.me/559999999999" target="_blank" rel="noreferrer" className="p-2 bg-pink-50 rounded-full text-pink-500 hover:bg-pink-100 transition">
+          <a href="https://wa.me/5562993660595" target="_blank" rel="noreferrer" className="p-2 bg-pink-50 rounded-full text-pink-500 hover:bg-pink-100 transition">
             <Phone size={20} />
           </a>
         </div>
