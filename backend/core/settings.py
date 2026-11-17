@@ -1,26 +1,19 @@
 
 """
-Django settings for NailStudio
-Preparado para desenvolvimento local e hospedagem no Render.
+Django settings for NailStudio.
+Desenvolvimento local e hospedagem no Render.
 """
 
 from pathlib import Path
 import os
 import dj_database_url
 
-# ==========================================
-# CAMINHOS
-# ==========================================
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# ==========================================
 # SEGURANÇA
-# ==========================================
 
-# Configure SECRET_KEY no Render.
-# Para desenvolvimento local, use uma chave própria em variável de ambiente.
 SECRET_KEY = os.environ.get(
     'SECRET_KEY',
     'django-insecure-local-dev-only-change-before-production'
@@ -37,17 +30,13 @@ ALLOWED_HOSTS = [
     if host.strip()
 ]
 
-# Permite HTTPS através do proxy do Render
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# Proteção adicional quando estiver em produção
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
 
 
-# ==========================================
 # APLICATIVOS
-# ==========================================
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -66,17 +55,12 @@ INSTALLED_APPS = [
 ]
 
 
-# ==========================================
 # MIDDLEWARE
-# ==========================================
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-
     'whitenoise.middleware.WhiteNoiseMiddleware',
-
     'corsheaders.middleware.CorsMiddleware',
-
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -86,9 +70,7 @@ MIDDLEWARE = [
 ]
 
 
-# ==========================================
 # ROTAS E TEMPLATES
-# ==========================================
 
 ROOT_URLCONF = 'core.urls'
 
@@ -101,7 +83,6 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-                'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -111,12 +92,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 
-# ==========================================
 # BANCO DE DADOS
-# ==========================================
-
-# No computador: SQLite
-# No Render: PostgreSQL pela variável DATABASE_URL
 
 DATABASES = {
     'default': dj_database_url.config(
@@ -128,9 +104,7 @@ DATABASES = {
 }
 
 
-# ==========================================
 # VALIDAÇÃO DE SENHAS
-# ==========================================
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -145,72 +119,57 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
 ]
 
 
-# ==========================================
 # IDIOMA E FUSO HORÁRIO
-# ==========================================
 
 LANGUAGE_CODE = 'pt-br'
-
 TIME_ZONE = 'America/Sao_Paulo'
-
 USE_I18N = True
-
 USE_TZ = True
 
 
-# ==========================================
 # ARQUIVOS ESTÁTICOS
-# ==========================================
 
 STATIC_URL = '/static/'
-
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+
+# IMAGENS E CLOUDINARY
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
 
 STORAGES = {
     'staticfiles': {
         'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
     },
+    'default': {
+        'BACKEND': (
+            'cloudinary_storage.storage.MediaCloudinaryStorage'
+            if CLOUDINARY_URL
+            else 'django.core.files.storage.FileSystemStorage'
+        ),
+    },
 }
 
-
-# ==========================================
-# IMAGENS DO PORTFÓLIO
-# ==========================================
-
-MEDIA_URL = '/media/'
-
-MEDIA_ROOT = BASE_DIR / 'media'
-# Armazenamento de imagens no Cloudinary
-CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
-
-if CLOUDINARY_URL:
-    STORAGES['default'] = {
-        'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
-    }
-
-# IMPORTANTE:
-# No Render gratuito, os arquivos locais não são persistentes.
-# Depois configuraremos um armazenamento externo para as imagens.
+# Produção exige armazenamento persistente.
+if not DEBUG and not CLOUDINARY_URL:
+    raise RuntimeError(
+        'Configure CLOUDINARY_URL no ambiente de produção.'
+    )
 
 
-# ==========================================
 # CORS - REACT E NETLIFY
-# ==========================================
-
-# Origens permitidas para acessar a API
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5174',
     'http://127.0.0.1:5174',
 ]
 
-# Adicione a URL exata da Netlify pela variável CORS_ALLOWED_ORIGINS
 CORS_ALLOWED_ORIGINS += [
     origin.strip().rstrip('/')
     for origin in os.environ.get(
@@ -219,7 +178,6 @@ CORS_ALLOWED_ORIGINS += [
     if origin.strip()
 ]
 
-# Origens confiáveis para requisições CSRF
 CSRF_TRUSTED_ORIGINS = [
     origin.strip().rstrip('/')
     for origin in os.environ.get(
